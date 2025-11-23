@@ -3,19 +3,19 @@ package objects;
 import pt.iscte.poo.game.Room;
 import pt.iscte.poo.utils.Point2D;
 
-public class Water extends GameObject{
+public class Trunk extends GameObject{
 
-	public Water(Room room) {
+	public Trunk(Room room) {
 		super(room);
 	}
 	
-	public Water(Point2D position, Room room) {
+	public Trunk(Point2D position, Room room) {
 		super(position, room);
 	}
 
 	@Override
 	public String getName() {
-		return "water";
+		return "trunk";
 	}
 
 	@Override

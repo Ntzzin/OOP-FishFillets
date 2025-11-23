@@ -29,6 +29,8 @@ import javax.swing.SwingConstants;
 
 import pt.iscte.poo.observer.Observed;
 import pt.iscte.poo.utils.Point2D;
+import tests.MessageType;
+import tests.Raise;
 
 /**
  * @author POO 2024

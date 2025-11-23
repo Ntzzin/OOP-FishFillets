@@ -18,13 +18,16 @@ public class Room {
 	private Point2D smallFishStartingPosition;
 	private Point2D bigFishStartingPosition;
 	private static Map<Character, GameObjectFactory> symbolMap = Map.of(
-		    'B', (r) -> BigFish.getInstance(),
-		    'S', (r) -> SmallFish.getInstance(),
-		    'W', (r) -> new Wall(r),
-		    'H', (r) -> new SteelHorizontal(r),
-		    'V', (r) -> new SteelVertical(r),
-		    'C', (r) -> new Cup(r),
-		    'R', (r) -> new Stone(r)
+			'B', (p,r) -> {BigFish.getInstance().setPosition(p); BigFish.getInstance().setRoom(r); return BigFish.getInstance();},
+		    'S', (p,r) -> {SmallFish.getInstance().setPosition(p); SmallFish.getInstance().setRoom(r); return SmallFish.getInstance();},
+		    'W', (p,r) -> new Wall(p, r),
+		    'H', (p,r) -> new SteelHorizontal(p, r),
+		    'V', (p,r) -> new SteelVertical(p, r),
+		    'C', (p,r) -> new Cup(p, r),
+		    'R', (p,r) -> new Stone(p, r),
+		    'A', (p,r) -> new Anchor(p, r),
+		    'b', (p,r) -> new Bomb(p, r),
+		    'T', (p,r) -> new Trap(p, r)
 		);
 	
 	public Room() {
@@ -56,8 +59,7 @@ public class Room {
 	private void addObjectX(char c, int x, int y) {
 		GameObject			object;
 
-		object = symbolMap.get(c).create(this);
-		object.setPosition(x, y);
+		object = symbolMap.get(c).create(new Point2D(x, y), this);
 		this.addObject(object);
 	}
 	
@@ -104,10 +106,8 @@ public class Room {
 				{
 					if (x < line.length() && line.charAt(x) != ' ')
 						r.addObjectX(line.charAt(x), x, y);
-					water = new Water(r);
-					water.setPosition(x, y);
+					water = new Water(new Point2D(x, y), r);
 					r.addObject(water);
-					
 				}
 				y++;
 			}
