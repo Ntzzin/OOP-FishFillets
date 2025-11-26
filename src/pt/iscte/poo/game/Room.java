@@ -17,17 +17,19 @@ public class Room {
 	private GameEngine engine;
 	private Point2D smallFishStartingPosition;
 	private Point2D bigFishStartingPosition;
-	private static Map<Character, GameObjectFactory> symbolMap = Map.of(
-			'B', (p,r) -> {BigFish.getInstance().setPosition(p); BigFish.getInstance().setRoom(r); return BigFish.getInstance();},
-		    'S', (p,r) -> {SmallFish.getInstance().setPosition(p); SmallFish.getInstance().setRoom(r); return SmallFish.getInstance();},
-		    'W', (p,r) -> new Wall(p, r),
-		    'H', (p,r) -> new SteelHorizontal(p, r),
-		    'V', (p,r) -> new SteelVertical(p, r),
-		    'C', (p,r) -> new Cup(p, r),
-		    'R', (p,r) -> new Stone(p, r),
-		    'A', (p,r) -> new Anchor(p, r),
-		    'b', (p,r) -> new Bomb(p, r),
-		    'T', (p,r) -> new Trap(p, r)
+	private static Map<Character, GameObjectFactory> symbolMap = Map.ofEntries(
+			Map.entry('B', (p,r) -> {BigFish.getInstance().setPosition(p); BigFish.getInstance().setRoom(r); return BigFish.getInstance();}),
+			Map.entry('S', (p,r) -> {SmallFish.getInstance().setPosition(p); SmallFish.getInstance().setRoom(r); return SmallFish.getInstance();}),
+		    Map.entry('W', (p,r) -> new Wall(p, r)),
+		    Map.entry('H', (p,r) -> new SteelHorizontal(p, r)),
+		    Map.entry('V', (p,r) -> new SteelVertical(p, r)),
+		    Map.entry('C', (p,r) -> new Cup(p, r)),
+		    Map.entry('R', (p,r) -> new Stone(p, r)),
+		    Map.entry('A', (p,r) -> new Anchor(p, r)),
+		    Map.entry('b', (p,r) -> new Bomb(p, r)),
+		    Map.entry('T', (p,r) -> new Trap(p, r)),
+		    Map.entry('Y', (p,r) -> new Trunk(p, r)),
+		    Map.entry('X', (p,r) -> new HoledWall(p, r))
 		);
 	
 	public Room() {
