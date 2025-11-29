@@ -18,7 +18,7 @@ public class SmallFish extends GameCharacter {
 	public String getName() {
 		return "smallFishLeft";
 	}
-
+	
 	@Override
 	public int getLayer() {
 		return 1;

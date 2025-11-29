@@ -8,6 +8,7 @@ import java.util.Map;
 import objects.SmallFish;
 import objects.BigFish;
 import objects.GameCharacter;
+import objects.GameObject;
 import pt.iscte.poo.gui.ImageGUI;
 import pt.iscte.poo.observer.Observed;
 import pt.iscte.poo.observer.Observer;
@@ -39,12 +40,11 @@ public class GameEngine implements Observer {
 
 	@Override
 	public void update(Observed source) {
-
 		if (ImageGUI.getInstance().wasKeyPressed()) {
 			int k = ImageGUI.getInstance().keyPressed();
 			if (k == KeyEvent.VK_SPACE)
 				currentCharacter = (currentCharacter == BigFish.getInstance()) ? SmallFish.getInstance() : BigFish.getInstance();
-			else
+			else if (Direction.isDirection(k))
 				currentCharacter.move(Direction.directionFor(k).asVector());
 		}
 		int t = ImageGUI.getInstance().getTicks();
@@ -55,6 +55,7 @@ public class GameEngine implements Observer {
 	}
 
 	private void processTick() {		
+		currentRoom.update();
 		lastTickProcessed++;
 	}
 

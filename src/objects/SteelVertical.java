@@ -23,7 +23,7 @@ public class SteelVertical extends GameObject {
 
 	@Override
 	public int getLayer() {
-		return 1;
+		return 2;
 	}
 	
 	public boolean collideWith(GameObject object, Vector2D dir) {

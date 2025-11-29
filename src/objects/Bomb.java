@@ -20,7 +20,7 @@ public class Bomb extends GameObject{
 
 	@Override
 	public int getLayer() {
-		return 0;
+		return 2;
 	}
 
 }

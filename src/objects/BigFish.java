@@ -18,10 +18,4 @@ public class BigFish extends GameCharacter {
 	public String getName() {
 		return "bigFishLeft";
 	}
-
-	@Override
-	public int getLayer() {
-		return 1;
-	}
-
 }

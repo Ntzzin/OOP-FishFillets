@@ -23,13 +23,13 @@ public class SteelHorizontal extends GameObject {
 
 	@Override
 	public int getLayer() {
-		return 1;
+		return 2;
 	}
 	
 	@Override
 	public boolean collideWith(GameObject object, Vector2D dir) {
-		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() >= this.getLayer() && dir.getY() != 0);
-		return object.getLayer() >= this.getLayer() && dir.getY() != 0;
+		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() <= this.getLayer() && dir.getY() != 0);
+		return super.collideWith(object, dir) && dir.getY() != 0;
 	}
 
 }

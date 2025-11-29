@@ -12,7 +12,7 @@ public abstract class GameCharacter extends Entity {
 	
 	@Override
 	public int getLayer() {
-		return 2;
+		return 1;
 	}
 	
 }

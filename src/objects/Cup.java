@@ -20,7 +20,7 @@ public class Cup extends GameObject {
 
 	@Override
 	public int getLayer() {
-		return 1;
+		return 2;
 	}
 
 }

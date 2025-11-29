@@ -23,12 +23,12 @@ public class HoledWall extends GameObject{
 
 	@Override
 	public int getLayer() {
-		return 1;
+		return 2;
 	}
 	
 	public boolean collideWith(GameObject object, Vector2D dir) {
-		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() >= this.getLayer());
-		return (object.getLayer() >= this.getLayer() && object != SmallFish.getInstance());
+		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() <= this.getLayer() && object != SmallFish.getInstance());
+		return (super.collideWith(object, dir) && object != SmallFish.getInstance());
 	}
 
 }

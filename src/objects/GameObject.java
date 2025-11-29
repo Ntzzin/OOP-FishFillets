@@ -1,6 +1,7 @@
 package objects;
 
 import pt.iscte.poo.game.Room;
+import pt.iscte.poo.gui.ImageGUI;
 import pt.iscte.poo.gui.ImageTile;
 import pt.iscte.poo.utils.Point2D;
 import pt.iscte.poo.utils.Vector2D;
@@ -11,7 +12,7 @@ public abstract class GameObject implements ImageTile{
 	
 	private Point2D position;
 	private Room room;
-	
+
 	public GameObject(Room room) {
 		this.room = room;
 	}
@@ -43,8 +44,12 @@ public abstract class GameObject implements ImageTile{
 	}
 
 	public boolean collideWith(GameObject object, Vector2D dir) {
-		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() >= this.getLayer());
-		return object.getLayer() >= this.getLayer();
+		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() <= this.getLayer());
+		return object.getLayer() <= this.getLayer();
 	}
-
+	
+	public int getWeigth() {
+		return 0;
+	}
+	
 }

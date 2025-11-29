@@ -20,7 +20,7 @@ public class Trunk extends GameObject{
 
 	@Override
 	public int getLayer() {
-		return 0;
+		return 2;
 	}
 
 }

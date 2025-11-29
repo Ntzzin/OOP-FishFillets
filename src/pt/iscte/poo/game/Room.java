@@ -31,9 +31,11 @@ public class Room {
 		    Map.entry('Y', (p,r) -> new Trunk(p, r)),
 		    Map.entry('X', (p,r) -> new HoledWall(p, r))
 		);
+	private	ArrayList<Updatable> updatableObjects;
 	
 	public Room() {
 		objects = new ArrayList<GameObject>();
+		updatableObjects = new ArrayList<Updatable>();
 	}
 
 	private void setName(String name) {
@@ -49,7 +51,9 @@ public class Room {
 	}
 
 	public void addObject(GameObject obj) {
-		objects.add(obj);
+		synchronized (objects) {
+	        objects.add(obj);
+	    }
 		engine.updateGUI();
 	}
 	
@@ -63,6 +67,15 @@ public class Room {
 
 		object = symbolMap.get(c).create(new Point2D(x, y), this);
 		this.addObject(object);
+	}
+	
+	public void addUpdatable(Updatable u) {
+		updatableObjects.add(u);
+	}
+	
+	public void update() {
+		for (Updatable u : updatableObjects)
+			u.onTick();
 	}
 	
 	public List<GameObject> getObjects() {
