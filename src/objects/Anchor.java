@@ -3,12 +3,8 @@ package objects;
 import pt.iscte.poo.game.Room;
 import pt.iscte.poo.utils.Point2D;
 
-public class Anchor extends GameObject{
+public class Anchor extends GravityAffected{
 
-	public Anchor(Room room) {
-		super(room);
-	}
-	
 	public Anchor(Point2D position, Room room) {
 		super(position, room);
 	}
@@ -16,6 +12,11 @@ public class Anchor extends GameObject{
 	@Override
 	public String getName() {
 		return "anchor";
+	}
+	
+	@Override
+	public int getWeigth() {
+		return heavy;
 	}
 
 	@Override

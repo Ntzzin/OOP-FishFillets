@@ -20,8 +20,8 @@ public class SmallFish extends GameCharacter {
 	}
 	
 	@Override
-	public int getLayer() {
-		return 1;
+	public int getMaxWeigth() {
+		return ligth;
 	}
 
 }

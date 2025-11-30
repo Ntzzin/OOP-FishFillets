@@ -48,8 +48,4 @@ public abstract class GameObject implements ImageTile{
 		return object.getLayer() <= this.getLayer();
 	}
 	
-	public int getWeigth() {
-		return 0;
-	}
-	
 }

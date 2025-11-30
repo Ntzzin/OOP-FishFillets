@@ -33,36 +33,31 @@ public abstract class Entity extends GameObject {
 	    return null;
 	}
 	
-	public void move(Vector2D dir) {
+	public boolean move(Vector2D dir) {
 		GameObject	object;
 		Point2D		target;
 
 		target = this.getPosition().plus(dir);
 		Raise.log(MessageType.DEBUG, "Trying to move to pos (%d, %d)\n", target.getX(), target.getY());
 		object = checkPos(target);
-		if (object != null) {
-			if (object.collideWith(this, dir)) {
-				Raise.log(MessageType.WARNING, "collided with something\n");
-				if(!object.getPosition().equals(target)) {
-					Raise.log(MessageType.SUCCESS, "moved to pos (%d, %d)\n", target.getX(), target.getY());
-					setPosition(target);
-				}
-			}else{
+		if (object != null && object.collideWith(this, dir)) {
+			Raise.log(MessageType.WARNING, "collided with something\n");
+			if(object instanceof Entity && ((Entity) object).getTotalWeigth(dir) <= this.getMaxWeigth() && ((Entity) object).move(dir)) {
 				Raise.log(MessageType.SUCCESS, "moved to pos (%d, %d)\n", target.getX(), target.getY());
 				setPosition(target);
+				return true;
 			}
+			return false;
 		}else {
 		Raise.log(MessageType.SUCCESS, "moved to pos (%d, %d)\n", target.getX(), target.getY());
 		setPosition(target);
 		}
-		ImageGUI.getInstance().update();
+		return true;
 	}
 	
 	@Override
 	public boolean collideWith(GameObject object, Vector2D dir) {
 		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() <= this.getLayer());
-		if (super.collideWith(object, dir))
-			move(dir);
 		return (super.collideWith(object, dir));
 	}
 	
@@ -70,8 +65,7 @@ public abstract class Entity extends GameObject {
 	public int getLayer() {
 		return 1;
 	}
-	
-	@Override
+
 	public int getWeigth() {
 		return ligth;
 	}
@@ -81,13 +75,14 @@ public abstract class Entity extends GameObject {
 		int			res;
 
 		res = this.getWeigth();
-		o = checkPos(this.getPosition().plus(Direction.UP.asVector()));
-		if (o != null && o instanceof Entity)
-			res += ((Entity) o).getTotalWeigth(dir);
 		o = checkPos(this.getPosition().plus(dir));
 		if (o != null && o instanceof Entity)
 			res += ((Entity) o).getTotalWeigth(dir);
 		return res;
+	}
+	
+	public int getMaxWeigth() {
+		return 999;
 	}
 	
 }

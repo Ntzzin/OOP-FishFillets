@@ -18,4 +18,9 @@ public class BigFish extends GameCharacter {
 	public String getName() {
 		return "bigFishLeft";
 	}
+	
+	@Override
+	public int getMaxWeigth() {
+		return heavy;
+	}
 }

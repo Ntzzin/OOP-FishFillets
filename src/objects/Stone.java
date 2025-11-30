@@ -17,10 +17,10 @@ public class Stone extends GravityAffected {
 	public String getName() {
 		return "stone";
 	}
-
+	
 	@Override
-	public int getLayer() {
-		return 2;
+	public int getWeigth() {
+		return heavy;
 	}
 
 }
