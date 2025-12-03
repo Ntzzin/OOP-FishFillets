@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import objects.GameObject;
 import pt.iscte.poo.utils.Point2D;
+import tests.*;
+
 import java.util.Scanner;
 import java.util.Map;
 import objects.*;
@@ -18,8 +20,8 @@ public class Room {
 	private Point2D smallFishStartingPosition;
 	private Point2D bigFishStartingPosition;
 	private static Map<Character, GameObjectFactory> symbolMap = Map.ofEntries(
-			Map.entry('B', (p,r) -> {BigFish.getInstance().setPosition(p); BigFish.getInstance().setRoom(r); return BigFish.getInstance();}),
-			Map.entry('S', (p,r) -> {SmallFish.getInstance().setPosition(p); SmallFish.getInstance().setRoom(r); return SmallFish.getInstance();}),
+			Map.entry('B', (p,r) -> {BigFish.getInstance().setPosition(p); return BigFish.getInstance();}),
+			Map.entry('S', (p,r) -> {SmallFish.getInstance().setPosition(p); return SmallFish.getInstance();}),
 		    Map.entry('W', (p,r) -> new Wall(p, r)),
 		    Map.entry('H', (p,r) -> new SteelHorizontal(p, r)),
 		    Map.entry('V', (p,r) -> new SteelVertical(p, r)),
@@ -29,7 +31,8 @@ public class Room {
 		    Map.entry('b', (p,r) -> new Bomb(p, r)),
 		    Map.entry('T', (p,r) -> new Trap(p, r)),
 		    Map.entry('Y', (p,r) -> new Trunk(p, r)),
-		    Map.entry('X', (p,r) -> new HoledWall(p, r))
+		    Map.entry('X', (p,r) -> new HoledWall(p, r)),
+		    Map.entry('u', (p,r) -> new Buoy(p, r))
 		);
 	private	ArrayList<Updatable> updatableObjects;
 	
@@ -58,8 +61,14 @@ public class Room {
 	}
 	
 	public void removeObject(GameObject obj) {
+		if (obj == null)
+			return ;
 		objects.remove(obj);
 		engine.updateGUI();
+		if (obj.equals(BigFish.getInstance()) || obj.equals(SmallFish.getInstance())) {
+			Raise.log(MessageType.CRITICAL, "A fish has died!!!\n");
+			this.restart();
+		}
 	}
 	
 	private void addObjectX(char c, int x, int y) {
@@ -76,6 +85,7 @@ public class Room {
 	public void update() {
 		for (Updatable u : updatableObjects)
 			u.onTick();
+		updatableObjects.removeIf(u -> !objects.contains((GameObject)u));
 	}
 	
 	public List<GameObject> getObjects() {
@@ -96,6 +106,10 @@ public class Room {
 	
 	public Point2D getBigFishStartingPosition() {
 		return bigFishStartingPosition;
+	}
+	
+	private void restart() {
+		this.engine.loadRoom(this.getName());
 	}
 	
 	public static Room readRoom(File f, GameEngine engine) {

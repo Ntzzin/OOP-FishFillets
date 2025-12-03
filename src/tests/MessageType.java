@@ -6,7 +6,7 @@ package tests;
  */
 
 public enum MessageType {
-	DEBUG(90, "[Debug]"), WARNING(33, "[Warning]"), ERROR(31, "[Error]"), SUCCESS(32, "[Success]"), DEFAULT(0, null);
+	DEBUG(90, "[Debug]"), WARNING(33, "[Warning]"), ERROR(31, "[Error]"), CRITICAL(31, "[Critical]"), SUCCESS(32, "[Success]"), DEFAULT(0, null);
 	
 	private final int ccode;
 	private final String head;

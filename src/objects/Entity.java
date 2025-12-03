@@ -13,7 +13,7 @@ import tests.Raise;
 public abstract class Entity extends GameObject {
 	
 	public final int ligth = 1;
-	public final int heavy = (ImageGUI.getInstance().getGridDimension().height/48) - 1; //max ligth elements that a fish can support
+	public final int heavy = 0;
 	
 	public Entity(Room room) {
 		super(room);
@@ -42,7 +42,7 @@ public abstract class Entity extends GameObject {
 		object = checkPos(target);
 		if (object != null && object.collideWith(this, dir)) {
 			Raise.log(MessageType.WARNING, "collided with something\n");
-			if(object instanceof Entity && ((Entity) object).getTotalWeigth(dir) <= this.getMaxWeigth() && ((Entity) object).move(dir)) {
+			if(object instanceof Entity && ((Entity) object).getPushed(this, dir)) {
 				Raise.log(MessageType.SUCCESS, "moved to pos (%d, %d)\n", target.getX(), target.getY());
 				setPosition(target);
 				return true;
@@ -70,19 +70,28 @@ public abstract class Entity extends GameObject {
 		return ligth;
 	}
 	
-	public int getTotalWeigth(Vector2D dir) {
+	public int[] getTotalWeigth(Vector2D dir) {
 		GameObject	o;
-		int			res;
+		int[]		res;
 
-		res = this.getWeigth();
+		res = new int[2];
+		res[this.getWeigth()]++; 
 		o = checkPos(this.getPosition().plus(dir));
-		if (o != null && o instanceof Entity)
-			res += ((Entity) o).getTotalWeigth(dir);
+		if (o != null && o instanceof Entity) {
+			res[ligth] += ((Entity) o).getTotalWeigth(dir)[ligth];
+			res[heavy] += ((Entity) o).getTotalWeigth(dir)[heavy];
+		}
 		return res;
 	}
 	
-	public int getMaxWeigth() {
-		return 999;
+	public boolean canSupport(int[] weigths, Vector2D dir) {
+		return true;
+	}
+	
+	public boolean getPushed(Entity pusher, Vector2D dir) {
+		if (pusher.canSupport(this.getTotalWeigth(dir), dir))
+			return this.move(dir);
+		return false;
 	}
 	
 }

@@ -1,9 +1,11 @@
 package objects;
 
 import pt.iscte.poo.game.Room;
+import pt.iscte.poo.utils.Direction;
 import pt.iscte.poo.utils.Point2D;
+import pt.iscte.poo.utils.Vector2D;
 
-public class Trunk extends GameObject{
+public class Trunk extends Entity{
 
 	public Trunk(Room room) {
 		super(room);
@@ -19,8 +21,18 @@ public class Trunk extends GameObject{
 	}
 
 	@Override
-	public int getLayer() {
-		return 2;
+	public boolean canSupport(int[] weigths, Vector2D dir) {
+		return !(dir.equals(Direction.DOWN.asVector()) && weigths[heavy] >= 1);
+	}
+	
+	@Override
+	public boolean move(Vector2D dir) {
+		return false;
+	}
+	
+	@Override
+	public boolean getPushed(Entity pusher, Vector2D dir) {
+		return false;
 	}
 
 }

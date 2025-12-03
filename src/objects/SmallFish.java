@@ -1,6 +1,7 @@
 package objects;
 
 import pt.iscte.poo.game.Room;
+import pt.iscte.poo.utils.Vector2D;
 
 public class SmallFish extends GameCharacter {
 
@@ -20,8 +21,22 @@ public class SmallFish extends GameCharacter {
 	}
 	
 	@Override
-	public int getMaxWeigth() {
-		return ligth;
+	public boolean canSupport(int[] weigths, Vector2D dir) {
+		return weigths[ligth] <= 1 && weigths[heavy] < 1;
+	}
+	
+	@Override
+	public boolean getPushed(Entity pusher, Vector2D dir) {
+		return false;
+	}
+	
+	@Override
+	public boolean collideWith(GameObject object, Vector2D dir) {
+		if (object instanceof Krab) {
+			this.getRoom().removeObject(this);
+			return true;
+		}
+		return super.collideWith(object, dir);
 	}
 
 }

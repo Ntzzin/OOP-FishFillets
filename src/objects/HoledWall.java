@@ -28,7 +28,7 @@ public class HoledWall extends GameObject{
 	
 	public boolean collideWith(GameObject object, Vector2D dir) {
 		Raise.log(MessageType.DEBUG, "Checking collision with %s resulted in %s\n", object.getName(), object.getLayer() <= this.getLayer() && object != SmallFish.getInstance());
-		return (super.collideWith(object, dir) && object != SmallFish.getInstance());
+		return (super.collideWith(object, dir) && !object.equals(SmallFish.getInstance()) && !(object instanceof Cup));
 	}
 
 }
